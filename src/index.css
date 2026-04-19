@@ -724,3 +724,15 @@ body {
     line-height: 1.5 !important;
   }
 }
+
+html,
+body,
+#root {
+  height: 100%;
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+}
+
+body {
+  overflow: hidden;
+}
