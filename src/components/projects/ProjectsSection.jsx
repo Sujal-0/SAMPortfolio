@@ -61,6 +61,8 @@ const PROJECTS = [
 const TOTAL = PROJECTS.length;
 const EASE = [0.22, 1, 0.36, 1];
 const LOCK_MS = 900; // outlasts trackpad inertia (~800ms worst case)
+const touchStartY = useRef(0);
+const touchStartX = useRef(0);
 
 // ─── Shuffle Title ─────────────────────────────────────────────────────────
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -354,6 +356,32 @@ function VideoCard({ project, dir }) {
       });
     }
   };
+
+  const handleTouchProjectMove = useCallback((direction) => {
+    const cur = activeRef.current;
+    const next = cur + direction;
+
+    if (_isCooling) return;
+
+    // swipe up on last project -> next section
+    if (direction === 1 && cur === TOTAL - 1) {
+      triggerProject(() => {
+        if (window.__goToSection) {
+          window.__scrollState = "section";
+          window.__goToSection(3); // skills panel
+        }
+      });
+      return;
+    }
+
+    // swipe down on first project does nothing inside video zone
+    if (next < 0 || next >= TOTAL) return;
+
+    triggerProject(() => {
+      setDir(direction);
+      setActive(next);
+    });
+  }, []);
 
   return (
     <motion.div
@@ -831,6 +859,23 @@ export default function ProjectsSection() {
           dragElastic={0.04}
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
+          onTouchStart={(e) => {
+            const t = e.touches[0];
+            touchStartY.current = t.clientY;
+            touchStartX.current = t.clientX;
+            _delta = 0;
+          }}
+          onTouchEnd={(e) => {
+            const t = e.changedTouches[0];
+            const dy = touchStartY.current - t.clientY;
+            const dx = touchStartX.current - t.clientX;
+
+            // only vertical swipe should change project on mobile
+            if (Math.abs(dy) < 40) return;
+            if (Math.abs(dy) < Math.abs(dx)) return;
+
+            handleTouchProjectMove(dy > 0 ? 1 : -1);
+          }}
           onMouseEnter={() => {
             isInsideVideo.current = true;
             _delta = 0;
