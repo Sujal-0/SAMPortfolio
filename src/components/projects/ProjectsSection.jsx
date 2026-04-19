@@ -1,11 +1,5 @@
-// components/projects/ProjectsSection.jsx
 import { useState, useRef, useCallback, useEffect } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useMotionValue,
-  useTransform,
-} from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import InverseOutlineButton from "../shared/InverseOutlineButton";
 
@@ -60,9 +54,6 @@ const PROJECTS = [
 
 const TOTAL = PROJECTS.length;
 const EASE = [0.22, 1, 0.36, 1];
-const LOCK_MS = 900; // outlasts trackpad inertia (~800ms worst case)
-const touchStartY = useRef(0);
-const touchStartX = useRef(0);
 
 // ─── Shuffle Title ─────────────────────────────────────────────────────────
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -89,6 +80,7 @@ function ShuffleTitle({ text }) {
           )
           .join(""),
       );
+
       if (iteration < target.length + 4) {
         iteration += 0.5;
         frameRef.current = requestAnimationFrame(animate);
@@ -130,7 +122,7 @@ function TypeDesc({ text, onDone }) {
     });
 
     return () => timers.current.forEach(clearTimeout);
-  }, [text]);
+  }, [text, onDone]);
 
   return (
     <span>
@@ -142,10 +134,12 @@ function TypeDesc({ text, onDone }) {
 
 function BlinkCursor() {
   const [vis, setVis] = useState(true);
+
   useEffect(() => {
     const id = setInterval(() => setVis((v) => !v), 530);
     return () => clearInterval(id);
   }, []);
+
   return (
     <span
       style={{
@@ -188,6 +182,7 @@ function CornerBox({ children, style = {} }) {
       borderRight: `1.5px solid ${c}`,
     },
   ];
+
   return (
     <div style={{ position: "relative", padding: "14px 20px", ...style }}>
       {corners.map((s, i) => (
@@ -210,14 +205,11 @@ function CornerBox({ children, style = {} }) {
 
 // ─── Ruler ─────────────────────────────────────────────────────────────────
 function Ruler({ active }) {
-  // Between each pair of labels: 1 mid tick + 2 small ticks each side
   const segments = TOTAL - 1;
   const items = [];
 
   for (let s = 0; s < segments; s++) {
-    // Label
     items.push({ type: "label", idx: s });
-    // 4 minor ticks then 1 mid tick then 4 minor ticks
     for (let m = 0; m < 9; m++) {
       const isMid = m === 4;
       items.push({ type: isMid ? "mid" : "minor", idx: s + (m + 1) / 10 });
@@ -227,7 +219,6 @@ function Ruler({ active }) {
 
   return (
     <div style={{ width: "100%", maxWidth: "78vw", margin: "0 auto" }}>
-      {/* Ticks */}
       <div style={{ display: "flex", alignItems: "flex-end", height: 24 }}>
         {items.map((item, i) => {
           if (item.type === "label") {
@@ -255,6 +246,7 @@ function Ruler({ active }) {
               </div>
             );
           }
+
           return (
             <div
               key={i}
@@ -277,7 +269,6 @@ function Ruler({ active }) {
         })}
       </div>
 
-      {/* Labels */}
       <div
         style={{
           display: "flex",
@@ -305,13 +296,12 @@ function Ruler({ active }) {
   );
 }
 
-// ─── Video Card ─────────────────────────────────────────────────────────────
+// ─── Video Card ────────────────────────────────────────────────────────────
 function VideoCard({ project, dir }) {
   const videoRef = useRef(null);
   const frameRef = useRef(null);
   const containerRef = useRef(null);
 
-  // ── Cinematic entry when project changes ──────────────────────────────
   useEffect(() => {
     const video = videoRef.current;
     const frame = frameRef.current;
@@ -333,7 +323,6 @@ function VideoCard({ project, dir }) {
     );
   }, [project.id]);
 
-  // ── Hover: subtle scale + glow ────────────────────────────────────────
   const onMouseEnter = () => {
     if (frameRef.current) {
       gsap.to(frameRef.current, {
@@ -345,6 +334,7 @@ function VideoCard({ project, dir }) {
       });
     }
   };
+
   const onMouseLeave = () => {
     if (frameRef.current) {
       gsap.to(frameRef.current, {
@@ -356,32 +346,6 @@ function VideoCard({ project, dir }) {
       });
     }
   };
-
-  const handleTouchProjectMove = useCallback((direction) => {
-    const cur = activeRef.current;
-    const next = cur + direction;
-
-    if (_isCooling) return;
-
-    // swipe up on last project -> next section
-    if (direction === 1 && cur === TOTAL - 1) {
-      triggerProject(() => {
-        if (window.__goToSection) {
-          window.__scrollState = "section";
-          window.__goToSection(3); // skills panel
-        }
-      });
-      return;
-    }
-
-    // swipe down on first project does nothing inside video zone
-    if (next < 0 || next >= TOTAL) return;
-
-    triggerProject(() => {
-      setDir(direction);
-      setActive(next);
-    });
-  }, []);
 
   return (
     <motion.div
@@ -407,11 +371,9 @@ function VideoCard({ project, dir }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        // 10vh top + bottom breathing room
         padding: "10vh 0",
       }}
     >
-      {/* Grid — always behind, always visible */}
       <div
         style={{
           position: "absolute",
@@ -424,7 +386,6 @@ function VideoCard({ project, dir }) {
         }}
       />
 
-      {/* Vignette — top + bottom fade, above grid and video, no pointer events */}
       <div
         style={{
           position: "absolute",
@@ -455,7 +416,6 @@ function VideoCard({ project, dir }) {
         />
       </div>
 
-      {/* Floating video frame */}
       <div
         ref={containerRef}
         style={{
@@ -467,7 +427,6 @@ function VideoCard({ project, dir }) {
         }}
       >
         {project.video ? (
-          // Glass frame with depth + glow
           <div
             ref={frameRef}
             onMouseEnter={onMouseEnter}
@@ -497,13 +456,12 @@ function VideoCard({ project, dir }) {
                 maxHeight: "70vh",
                 maxWidth: "78vw",
                 objectFit: "contain",
-                pointerEvents: "none", // scroll passes through
+                pointerEvents: "none",
                 userSelect: "none",
               }}
             />
           </div>
         ) : (
-          // Placeholder for projects without video
           <div
             ref={frameRef}
             style={{
@@ -535,24 +493,6 @@ function VideoCard({ project, dir }) {
   );
 }
 
-// ─── Navbar hide/show on scroll ────────────────────────────────────────────
-export function useNavbarScroll() {
-  const [hidden, setHidden] = useState(false);
-  const lastY = useRef(0);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      setHidden(y > lastY.current && y > 80);
-      lastY.current = y;
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  return hidden;
-}
-
 // ─── Open project link with eye-blink ─────────────────────────────────────
 function openProject(link) {
   if (!link) return;
@@ -565,16 +505,12 @@ function openProject(link) {
   }
 }
 
-// ─── Delta accumulation scroll system ────────────────────────────────────
-// Primary control: accumulate deltaY until threshold → fire exactly once.
-// Secondary safety: short cooldown after trigger ignores momentum tail.
-// This replaces time-based LOCK_MS entirely.
+// ─── Delta accumulation scroll system ─────────────────────────────────────
+const THRESHOLD = 100;
+const COOLDOWN_MS = 380;
 
-const THRESHOLD = 100; // accumulated delta needed to trigger one step
-const COOLDOWN_MS = 380; // post-trigger ignore window (kills momentum tail)
-
-let _delta = 0; // running accumulator
-let _isCooling = false; // true during post-trigger cooldown
+let _delta = 0;
+let _isCooling = false;
 let _coolTimer = null;
 
 const resetDelta = () => {
@@ -582,7 +518,6 @@ const resetDelta = () => {
 };
 
 const triggerProject = (navigate) => {
-  // navigate is a fn(direction) that does the actual state change
   _isCooling = true;
   _delta = 0;
   clearTimeout(_coolTimer);
@@ -596,88 +531,127 @@ const triggerProject = (navigate) => {
 export default function ProjectsSection() {
   const [active, setActive] = useState(0);
   const [dir, setDir] = useState(1);
-  const activeRef = useRef(0); // mirror of active, always current
+
+  const activeRef = useRef(0);
   const dragStart = useRef(0);
   const videoRef = useRef(null);
+  const touchStartY = useRef(0);
+  const touchStartX = useRef(0);
+  const isInsideVideo = useRef(false);
 
-  // Keep activeRef in sync with state
   useEffect(() => {
     activeRef.current = active;
   }, [active]);
 
   const project = PROJECTS[active];
 
-  // go() reads activeRef so it's always current even in old closures
-  const go = useCallback((d) => {
-    if (!acquireProjectLock()) return;
+  const handleTouchProjectMove = useCallback((direction) => {
     const cur = activeRef.current;
+    const next = cur + direction;
+
+    if (_isCooling) return;
+
+    if (direction === 1 && cur === TOTAL - 1) {
+      triggerProject(() => {
+        if (window.__goToSection) {
+          window.__scrollState = "section";
+          window.__goToSection(3); // skills
+        }
+      });
+      return;
+    }
+
+    if (direction === -1 && cur === 0) {
+      triggerProject(() => {
+        if (window.__goToSection) {
+          window.__scrollState = "section";
+          window.__goToSection(1); // about
+        }
+      });
+      return;
+    }
+
+    if (next < 0 || next >= TOTAL) return;
+
+    triggerProject(() => {
+      setDir(direction);
+      setActive(next);
+    });
+  }, []);
+
+  const go = useCallback((d) => {
+    const cur = activeRef.current;
+    const next = cur + d;
+
+    if (_isCooling) return;
 
     if (d === -1 && cur === 0) {
-      if (window.__goToSection) {
-        window.__scrollState = "section";
-        window.__goToSection(0);
-      }
-      _projectLocked = false; // release immediately — we're leaving
+      triggerProject(() => {
+        if (window.__goToSection) {
+          window.__scrollState = "section";
+          window.__goToSection(1); // about
+        }
+      });
       return;
     }
 
     if (d === 1 && cur === TOTAL - 1) {
-      if (window.__goToSection) {
-        window.__scrollState = "section";
-        window.__goToSection(2);
-      }
-      _projectLocked = false;
+      triggerProject(() => {
+        if (window.__goToSection) {
+          window.__scrollState = "section";
+          window.__goToSection(3); // skills
+        }
+      });
       return;
     }
 
-    const next = cur + d;
-    if (next < 0 || next >= TOTAL) {
-      _projectLocked = false;
-      return;
-    }
-    setDir(d);
-    setActive(next);
-  }, []); // stable — reads refs, no deps needed
+    if (next < 0 || next >= TOTAL) return;
 
-  // ── Pointer boundary tracking ─────────────────────────────────────────
-  const isInsideVideo = useRef(false);
+    triggerProject(() => {
+      setDir(d);
+      setActive(next);
+    });
+  }, []);
 
-  // ── Single global wheel handler with delta accumulation ───────────────
   useEffect(() => {
     const handleWheel = (e) => {
-      // Strict isolation: only run when cursor is inside video zone
       if (!isInsideVideo.current) return;
 
-      // Take full ownership — prevent section scroll and page scroll
       e.preventDefault();
       e.stopPropagation();
 
-      // During cooldown: eat the event silently (kills momentum tail)
       if (_isCooling) return;
 
-      // Accumulate delta — only trigger when threshold crossed
       _delta += e.deltaY;
 
       if (Math.abs(_delta) < THRESHOLD) return;
 
-      // Threshold crossed → determine direction, reset, trigger
       const d = _delta > 0 ? 1 : -1;
       const cur = activeRef.current;
       const next = cur + d;
 
-      // Scroll down past last project → go to next section (skills = panel 3)
       if (d === 1 && cur === TOTAL - 1) {
         triggerProject(() => {
           resetDelta();
           if (window.__goToSection) {
             window.__scrollState = "section";
-            window.__goToSection(3); // skills section = panel index 3
+            window.__goToSection(3); // skills
           }
         });
         return;
       }
 
-      // Clamp at left edge — section navigation handled outside video zone
+      if (d === -1 && cur === 0) {
+        triggerProject(() => {
+          resetDelta();
+          if (window.__goToSection) {
+            window.__scrollState = "section";
+            window.__goToSection(1); // about
+          }
+        });
+        return;
+      }
+
       if (next < 0 || next >= TOTAL) {
         resetDelta();
         return;
@@ -690,37 +664,38 @@ export default function ProjectsSection() {
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
+
     return () => {
       window.removeEventListener("wheel", handleWheel);
       clearTimeout(_coolTimer);
       _delta = 0;
       _isCooling = false;
     };
-  }, []); // stable — reads only module-level vars and refs
+  }, []);
 
-  // Register escape handler so section-level scroll-up outside video works
   useEffect(() => {
     window.__onProjectEscape = (direction) => {
       if (!isInsideVideo.current) {
         if (direction === "up") {
           window.__scrollState = "section";
-          window.__goToSection?.(0);
+          window.__goToSection?.(1); // about
         }
         if (direction === "down") {
           window.__scrollState = "section";
-          window.__goToSection?.(2);
+          window.__goToSection?.(3); // skills
         }
       }
     };
+
     return () => {
       window.__onProjectEscape = null;
     };
   }, []);
 
-  // Drag support
   const onDragStart = (_, info) => {
     dragStart.current = info.point.x;
   };
+
   const onDragEnd = (_, info) => {
     const d = info.point.x - dragStart.current;
     if (Math.abs(d) > 60) go(d < 0 ? 1 : -1);
@@ -750,8 +725,6 @@ export default function ProjectsSection() {
           gap: 0,
         }}
       >
-        {/* ── TITLE ─────────────────────────────────────────────────── */}
-        {/* MOBILE FIX — proj-title-row class for mobile overrides */}
         <div
           className="proj-title-row"
           style={{ marginBottom: 20 }}
@@ -797,8 +770,6 @@ export default function ProjectsSection() {
           </p>
         </div>
 
-        {/* ── DESCRIPTION + CTA ─────────────────────────────────────── */}
-        {/* MOBILE FIX — proj-desc-row class for mobile stacking */}
         <div
           className="proj-desc-row"
           data-reveal
@@ -850,7 +821,6 @@ export default function ProjectsSection() {
           </InverseOutlineButton>
         </div>
 
-        {/* ── VIDEO ─────────────────────────────────────────────────── */}
         <motion.div
           ref={videoRef}
           data-video-zone="true"
@@ -870,7 +840,6 @@ export default function ProjectsSection() {
             const dy = touchStartY.current - t.clientY;
             const dx = touchStartX.current - t.clientX;
 
-            // only vertical swipe should change project on mobile
             if (Math.abs(dy) < 40) return;
             if (Math.abs(dy) < Math.abs(dx)) return;
 
@@ -893,7 +862,6 @@ export default function ProjectsSection() {
             cursor: "grab",
             perspective: "1200px",
             userSelect: "none",
-            // GPU compositing — prevents jitter / layout shift during animations
             transform: "translateZ(0)",
             backfaceVisibility: "hidden",
             willChange: "transform",
@@ -904,7 +872,6 @@ export default function ProjectsSection() {
             <VideoCard key={active} project={project} dir={dir} />
           </AnimatePresence>
 
-          {/* Nav arrows */}
           <button
             onClick={() => go(-1)}
             style={{
@@ -967,7 +934,6 @@ export default function ProjectsSection() {
             →
           </button>
 
-          {/* Drag hint */}
           <p
             style={{
               position: "absolute",
@@ -986,8 +952,6 @@ export default function ProjectsSection() {
           </p>
         </motion.div>
 
-        {/* ── RULER ─────────────────────────────────────────────────── */}
-        {/* MOBILE FIX — proj-ruler-row for mobile margin */}
         <div className="proj-ruler-row" style={{ marginTop: 20 }} data-reveal>
           <Ruler active={active} />
         </div>
