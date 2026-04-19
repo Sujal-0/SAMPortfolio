@@ -1,16 +1,50 @@
-# React + Vite
+# 🚀 Premium Portfolio — Sujal Singh
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A cinematic, production-level developer portfolio built with React, featuring precision UI, ruler-based design system, and smooth motion interactions.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+- 🎬 Cinematic UI/UX with smooth animations (Framer Motion + GSAP)
+- 📏 Precision-based design system (ruler UI, grid alignment)
+- 🧠 Advanced interaction logic (scroll snapping, transitions)
+- 📱 Fully responsive (mobile-first without breaking desktop UI)
+- 🖥️ Terminal-style contact form
+- 🎥 Project showcase with video interactions
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React + Vite
+- Framer Motion
+- GSAP
+- Tailwind CSS
+- Custom CSS Design System
+
+---
+
+## 🎨 Design System
+
+This project follows a **premium dark theme system** with cinematic motion and precision UI.
+
+👉 Full documentation here:  
+➡️ [THEME SYSTEM](./THEME_SYSTEM.md)
+
+---
+
+## 📸 Preview
+
+> Add your screenshots here later
+
+---
+
+## 📦 Installation
+
+```bash
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+npm install
+npm run dev
+```
