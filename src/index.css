@@ -1,0 +1,726 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── FONT DECLARATIONS ────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: "Font1";
+  src: url("/fonts/indiasnake.woff2") format("woff2");
+  font-display: block;
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Font2";
+  src: url("/fonts/sdboo.woff2") format("woff2");
+  font-display: block;
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Font3";
+  src: url("/fonts/vmf.woff2") format("woff2");
+  font-display: block;
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Font4";
+  src: url("/fonts/eryx.woff2") format("woff2");
+  font-display: block;
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Font5";
+  src: url("/fonts/roblox.woff2") format("woff2");
+  font-display: block;
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MainFont";
+  src: url("/fonts/dune.woff2") format("woff2");
+  font-display: block;
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* ─── BASE ──────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  font-family: "MainFont", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── DOT GRID BACKGROUND ────────────────────────────────────────────────── */
+
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ─── LETTER ANIMATION HELPERS ───────────────────────────────────────────── */
+
+.letter-font-1 { font-family: "Font1", sans-serif; }
+.letter-font-2 { font-family: "Font2", sans-serif; }
+.letter-font-3 { font-family: "Font3", sans-serif; }
+.letter-font-4 { font-family: "Font4", sans-serif; }
+.letter-font-5 { font-family: "Font5", sans-serif; }
+.letter-font-main { font-family: "MainFont", sans-serif; }
+
+/* ─── SCROLLBAR ──────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+/* ── MOBILE FIX — Hero + PremiumTypeBox responsive overrides ──────────── */
+/* All rules scoped to max-width:768px so desktop is 100% unaffected */
+@media (max-width: 768px) {
+  .hero-name-h1 {
+    font-size: clamp(2.8rem, 18vw, 5rem) !important;
+    letter-spacing: 0.08em !important;
+    white-space: nowrap !important;
+  }
+
+  .ruler-rect-inner {
+    padding: 12px 16px !important;
+  }
+
+  .ptb-line1,
+  .ptb-line2 {
+    white-space: normal !important;
+    font-size: 10px !important;
+    letter-spacing: 0.1em !important;
+  }
+
+  .ptb-line2 {
+    font-size: 8.5px !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  .ptb-wrap {
+    min-width: 0 !important;
+    max-width: calc(100vw - 48px) !important;
+    width: calc(100vw - 48px) !important;
+    padding: 12px 16px !important;
+  }
+}
+
+/* ── MOBILE FIX — ProjectsSection responsive overrides ──────────────────── */
+/* Scoped to max-width:768px — desktop completely unaffected               */
+@media (max-width: 768px) {
+  #work {
+    padding-top: 72px !important;
+    padding-bottom: 16px !important;
+  }
+
+  #work > div {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  #work [data-reveal]:first-child {
+    margin-bottom: 10px !important;
+  }
+
+  #work h2 {
+    font-size: clamp(1.6rem, 8vw, 2.4rem) !important;
+    letter-spacing: 0em !important;
+  }
+
+  #work h2 + p {
+    font-size: 8px !important;
+    letter-spacing: 0.1em !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    margin-top: 4px !important;
+  }
+
+  #work [data-reveal]:nth-child(2) {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  #work [data-reveal]:nth-child(2) > div:first-child {
+    max-width: 100% !important;
+    flex: none !important;
+    width: 100% !important;
+  }
+
+  #work [data-reveal]:nth-child(2) p {
+    font-size: 9px !important;
+    letter-spacing: 0.08em !important;
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    min-height: auto !important;
+  }
+
+  #work [data-reveal]:nth-child(2) > div:last-child,
+  #work [data-reveal]:nth-child(2) > button:last-child {
+    align-self: flex-start !important;
+    transform: scale(0.85) !important;
+    transform-origin: left center !important;
+  }
+
+  #work [data-video-zone="true"] {
+    min-height: 200px !important;
+    max-height: 260px !important;
+  }
+
+  #work [data-reveal]:last-child {
+    margin-top: 10px !important;
+  }
+
+  #work [data-reveal]:last-child > div {
+    max-width: 100% !important;
+  }
+}
+
+/* ── MOBILE FIX — ProjectsSection class-based overrides (replaces nth-child) */
+@media (max-width: 768px) {
+  .proj-title-row {
+    margin-bottom: 10px !important;
+  }
+
+  .proj-title-row h2 {
+    font-size: clamp(1.6rem, 8vw, 2.4rem) !important;
+    letter-spacing: 0em !important;
+  }
+
+  .proj-title-row p {
+    font-size: 8px !important;
+    letter-spacing: 0.08em !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    margin-top: 4px !important;
+  }
+
+  .proj-desc-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .proj-desc-row > div:first-child {
+    max-width: 100% !important;
+    flex: none !important;
+    width: 100% !important;
+  }
+
+  .proj-desc-row p {
+    font-size: 9px !important;
+    letter-spacing: 0.07em !important;
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    min-height: auto !important;
+  }
+
+  .proj-desc-row > div:last-child {
+    transform: scale(0.82) !important;
+    transform-origin: left center !important;
+  }
+
+  [data-video-zone="true"] {
+    min-height: 190px !important;
+    max-height: 240px !important;
+  }
+
+  .proj-ruler-row {
+    margin-top: 8px !important;
+  }
+
+  .proj-ruler-row > div {
+    max-width: 100% !important;
+  }
+}
+
+/* ── MOBILE FIX — SkillsSection ────────────────────────────────────────── */
+/* Desktop untouched. Only mobile adjustments. */
+@media (max-width: 768px) {
+  #skills {
+    overflow: hidden !important;
+  }
+
+  #skills > div {
+    padding: 0 !important;
+    position: relative !important;
+  }
+
+  #skills > div > div:nth-child(2) {
+    position: absolute !important;
+    bottom: 12% !important;
+    left: 0 !important;
+    width: 100% !important;
+    padding: 0 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  #skills > div > div:nth-child(2) > div {
+    width: 100% !important;
+  }
+
+  #skills > div > div:last-child {
+    position: absolute !important;
+    bottom: 28% !important;
+    left: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  #skills > div > div:last-child [role="region"] {
+    --logoloop-logoHeight: 26px !important;
+    --logoloop-gap: 24px !important;
+  }
+
+  #skills > div > div:last-child svg,
+  #skills > div > div:last-child img {
+    height: 100% !important;
+    width: auto !important;
+    max-height: 26px !important;
+  }
+
+  #skills > div > div:last-child li {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
+/* ── MOBILE FIX — ResumeSection responsive overrides ───────────────────── */
+@media (max-width: 768px) {
+  .resume-image-wrap {
+    width: 80vw !important;
+    margin-left: -40vw !important;
+  }
+
+  .resume-bg-text {
+    left: 50% !important;
+    transform: translateX(-55%) rotate(-5deg) !important;
+    top: 2% !important;
+  }
+
+  .resume-bg-text h1 {
+    margin-left: 0 !important;
+    font-size: 9.5vw !important;
+  }
+
+  .resume-code-block {
+    top: 6% !important;
+    right: 4% !important;
+  }
+
+  .resume-code-block > div {
+    font-size: 0.65rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .resume-box-wrap {
+    bottom: 6% !important;
+    left: 4% !important;
+    max-width: calc(55vw) !important;
+  }
+
+  .resume-box-wrap .ptb-wrap {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 10px 12px !important;
+  }
+
+  .resume-box-wrap .ptb-line1 {
+    font-size: 7px !important;
+    letter-spacing: 0.08em !important;
+    white-space: normal !important;
+  }
+
+  .resume-box-wrap .ptb-line2 {
+    font-size: 6px !important;
+    letter-spacing: 0.06em !important;
+    white-space: normal !important;
+  }
+
+  .resume-btn-wrap {
+    bottom: 6% !important;
+    right: 4% !important;
+  }
+
+  .resume-btn-wrap > button,
+  .resume-btn-wrap > a {
+    transform: scale(0.75) !important;
+    transform-origin: right bottom !important;
+  }
+
+  .resume-ruler {
+    display: none !important;
+  }
+}
+
+/* ── MOBILE FIX — ContactSection responsive overrides ──────────────────── */
+@media (max-width: 768px) {
+  .contact-section-wrap {
+    padding: 20px 16px 24px !important;
+  }
+
+  .contact-meta-row {
+    flex-direction: column !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .contact-meta-divider {
+    display: none !important;
+  }
+
+  .contact-meta-row > div {
+    flex: none !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+  }
+
+  .contact-meta-row span[style*="clamp"] {
+    font-size: clamp(1.1rem, 5vw, 1.8rem) !important;
+  }
+
+  .contact-bottom-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+
+  .contact-bottom-row > div:first-child span {
+    font-size: clamp(1.4rem, 7vw, 2.2rem) !important;
+  }
+
+  .contact-links-row {
+    gap: 10px 14px !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+  }
+
+  .contact-links-row a,
+  .contact-links-row span {
+    font-size: 8px !important;
+    letter-spacing: 0.08em !important;
+    white-space: normal !important;
+  }
+
+  .contact-copyright {
+    font-size: 7px !important;
+    letter-spacing: 0.06em !important;
+    width: 100% !important;
+    margin-top: 4px !important;
+    white-space: normal !important;
+  }
+
+  .contact-section-wrap > div > div:first-child {
+    margin-bottom: 14px !important;
+  }
+
+  .contact-meta-row [style*="borderRadius: 20"] span {
+    font-size: 8px !important;
+    letter-spacing: 0.12em !important;
+  }
+}
+
+/* ── LOCATION TEXT SWAP — standalone, not nested ───────────────────────── */
+.contact-location-desktop {
+  display: inline !important;
+}
+
+.contact-location-mobile {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .contact-location-desktop {
+    display: none !important;
+  }
+
+  .contact-location-mobile {
+    display: inline !important;
+  }
+}
+
+/* ── MOBILE FIX — ResumePage responsive overrides ───────────────────── */
+@media (max-width: 768px) {
+  /* Main content area inside ResumePage */
+  .resume-page-header,
+  .resume-page-contact,
+  .resume-page-skills-grid,
+  .resume-page-projects,
+  .resume-page-education {
+    width: 100%;
+  }
+
+  /* Shrink ruler rails slightly on mobile */
+  #resume-page-root > div:first-child,
+  #resume-page-root > div:last-child {
+    height: 18px !important;
+  }
+
+  /* Header */
+  .resume-page-header {
+    gap: 8px !important;
+    margin-bottom: 6px !important;
+    align-items: flex-start !important;
+  }
+
+  .resume-page-name {
+    font-size: 1.6rem !important;
+    line-height: 0.95 !important;
+    letter-spacing: 0.03em !important;
+    white-space: nowrap !important;
+  }
+
+  .resume-page-role {
+    font-size: 9px !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.08em !important;
+    white-space: nowrap !important;
+    margin-top: 2px !important;
+  }
+
+  /* Buttons smaller */
+  .resume-page-actions {
+    gap: 4px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .resume-page-actions > * {
+    transform: scale(0.72) !important;
+    transform-origin: top right !important;
+  }
+
+  /* Contact info layout:
+     row 1 -> Phone + Email
+     row 2 -> LinkedIn + GitHub
+     row 3 -> LeetCode */
+  .resume-page-contact {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px 12px !important;
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+    align-items: start !important;
+  }
+
+  .resume-page-contact-item {
+    min-width: 0 !important;
+    font-size: 8.5px !important;
+    line-height: 1.3 !important;
+    letter-spacing: 0.03em !important;
+  }
+
+  .resume-page-contact-item a,
+  .resume-page-contact-item span {
+    word-break: break-word !important;
+  }
+
+  .resume-page-contact-item:nth-child(5) {
+    grid-column: 1 / -1 !important;
+  }
+
+  /* Generic body text */
+  #resume-page-root p {
+    font-size: 10px !important;
+    line-height: 1.5 !important;
+    letter-spacing: 0.03em !important;
+  }
+
+  /* Section labels */
+  #resume-page-root span[style*="letterSpacing: 0.22em"] {
+    font-size: 8px !important;
+  }
+
+  /* Skills grid */
+  .resume-page-skills-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px 14px !important;
+  }
+
+  .resume-page-skills-grid > div {
+    font-size: 9px !important;
+    line-height: 1.42 !important;
+    letter-spacing: 0.03em !important;
+    min-width: 0 !important;
+  }
+
+  /* Projects */
+  .resume-page-projects {
+    gap: 6px !important;
+  }
+
+  .resume-page-projects > div > div:first-child {
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+    margin-bottom: 2px !important;
+  }
+
+  .resume-page-projects > div > div:not(:first-child) {
+    font-size: 9px !important;
+    line-height: 1.42 !important;
+    padding-left: 10px !important;
+  }
+
+  /* Education */
+  .resume-page-education > div {
+    gap: 8px !important;
+  }
+
+  .resume-page-education > div > div:first-child > div:first-child {
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+  }
+
+  .resume-page-education > div > div:first-child > div:last-child {
+    font-size: 9px !important;
+    line-height: 1.25 !important;
+  }
+
+  .resume-page-education > div > div:last-child {
+    font-size: 8.5px !important;
+    white-space: nowrap !important;
+    margin-left: 8px !important;
+  }
+}
+
+/* ── MOBILE FIX — ContactPage responsive overrides ───────────────────── */
+@media (max-width: 768px) {
+  #contact-page-root > div:first-child,
+  #contact-page-root > div:last-child {
+    height: 18px !important;
+  }
+
+  #contact-page-root > div:nth-child(4) > div:first-child,
+  #contact-page-root > div:nth-child(4) > div:last-child {
+    width: 14px !important;
+  }
+
+  .contact-page-main {
+    flex-direction: column !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scroll-snap-type: y mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .contact-page-left,
+  .contact-page-right {
+    width: 100% !important;
+    min-height: 100% !important;
+    flex: none !important;
+    scroll-snap-align: start !important;
+  }
+
+  .contact-page-left {
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+    padding: 26px 18px 22px !important;
+    justify-content: center !important;
+  }
+
+  .contact-page-right {
+    padding: 18px 14px 18px !important;
+  }
+
+  .contact-page-label {
+    font-size: 9px !important;
+    letter-spacing: 0.16em !important;
+    margin-bottom: 12px !important;
+  }
+
+  .contact-page-title {
+    font-size: clamp(2.2rem, 14vw, 4rem) !important;
+    line-height: 0.95 !important;
+    margin-bottom: 14px !important;
+  }
+
+  .contact-page-copy {
+    font-size: 9px !important;
+    line-height: 1.7 !important;
+    margin-bottom: 18px !important;
+  }
+
+  .contact-page-progress {
+    gap: 6px !important;
+  }
+
+  .contact-page-btn-wrap {
+    margin-top: 20px !important;
+  }
+
+  .contact-page-btn-wrap > * {
+    transform: scale(0.78) !important;
+    transform-origin: left center !important;
+  }
+
+  .contact-page-terminal {
+    min-height: calc(100vh - 80px) !important;
+  }
+
+  .contact-page-terminal-header {
+    padding: 9px 12px !important;
+  }
+
+  .contact-page-terminal-email {
+    font-size: 8px !important;
+    letter-spacing: 0.08em !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .contact-page-terminal-body {
+    padding: 14px 12px !important;
+    font-size: 11px !important;
+    line-height: 1.65 !important;
+  }
+
+  .contact-page-inputbar {
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+
+  .contact-page-input {
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+  }
+}
